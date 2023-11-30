@@ -1,0 +1,21 @@
+$fso = New-Object -ComObject Scripting.FileSystemObject
+
+# Get all subdirectories
+$directories = Get-ChildItem -Directory
+
+foreach ($directory in $directories) {
+    Write-Host "Directory: $($directory.FullName)"
+
+    # Get and display directory size
+    $directorySize = $fso.GetFolder($directory.FullName).Size / 1MB
+    Write-Host "Directory Size: $($directorySize) MB"
+
+    # Get and display file sizes within the directory
+    $files = Get-ChildItem -File -Path $directory.FullName
+    foreach ($file in $files) {
+        $fileSize = $file.Length / 1MB
+        Write-Host "File: $($file.Name), Size: $($fileSize) MB"
+    }
+
+    Write-Host "---"
+}
